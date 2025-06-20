@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+    web-be-test:
+        container_name: web-be-test
+        ports:
+            - '8080:8080'
+        tty: true
+        build:
+            context: .
+            dockerfile: Dockerfile
+        volumes:
+            - './:/var/www/html:consistent'
+        depends_on:
+            - web-db-test
+        networks:
+            code-network:
+                aliases:
+                    - web-be-test
+
+    web-db-test:
+        container_name: web-db-test
+        image: mysql:9.3.0
+        environment:
+            MYSQL_DATABASE: main
+            MYSQL_USER: devdbuser
+            MYSQL_PASSWORD: devdbpass
+            MYSQL_ROOT_PASSWORD: devdbroot
+        ports:
+            - '3311:3306'
+        expose:
+            - '3311'
+        volumes:
+            - ./database/local/mysql:/var/lib/mysql
+        networks:
+            code-network:
+                aliases:
+                    - web-db-test
+networks:
+    code-network:
+        driver: bridge

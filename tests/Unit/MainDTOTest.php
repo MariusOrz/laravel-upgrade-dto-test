@@ -226,6 +226,18 @@ class MainDTOTest extends TestCase
         $dto->toArray();
     }
 
+    public function testMapInputAttribute(): void
+    {
+        $dto = ProductDTO::from([
+            'id' => 1,
+            'name' => $this->faker()->name(),
+            'createdAt' => Carbon::parse('2025-01-18 15:15:30'),
+            'product_code' => $expected = $this->faker()->word(),
+        ]);
+
+        $this->assertSame($expected, $dto->code);
+    }
+
     public static function toArrayDataProvider(): array
     {
         $faker = self::createFaker();
@@ -237,6 +249,7 @@ class MainDTOTest extends TestCase
                     'name' => $name = $faker->word(),
                     'description' => $description = $faker->word(),
                     'imageUrl' => $imageUrl = $faker->imageUrl(),
+                    'code' => $code = $faker->word(),
                     'createdAt' => '2025-01-18 15:15:30',
                     'categories' => [
                         [
@@ -282,6 +295,7 @@ class MainDTOTest extends TestCase
                     'name' => $name,
                     'description' => $description,
                     'imageUrl' => $imageUrl,
+                    'code' => $code,
                     'createdAt' => '2025-01-18T15:15:30+00:00',
                     'categories' => [
                         [
@@ -391,6 +405,7 @@ class MainDTOTest extends TestCase
                     'name' => $name,
                     'description' => $description,
                     'imageUrl' => $imageUrl,
+                    'code' => null,
                     'createdAt' => $createdAt->toIso8601String(),
                     'categories' => [
                         [
@@ -464,6 +479,7 @@ class MainDTOTest extends TestCase
                     'name' => $name,
                     'description' => null,
                     'imageUrl' => null,
+                    'code' => null,
                     'createdAt' => $createdAt->toIso8601String(),
                     'categories' => [],
                 ],
@@ -480,6 +496,7 @@ class MainDTOTest extends TestCase
                     'name' => $name,
                     'description' => null,
                     'imageUrl' => null,
+                    'code' => null,
                     'createdAt' => $createdAt->toIso8601String(),
                     'categories' => [],
                 ],
